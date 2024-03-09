@@ -26,8 +26,7 @@ namespace api.Controllers
       return Ok(commentDto);
     }
 
-    [HttpGet]
-    [Route("id")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById([FromRoute] int id)
     {
       var comment = await _commentRepo.GetByIdAsync(id);
@@ -41,7 +40,7 @@ namespace api.Controllers
 
     }
 
-    [HttpPost("{stockId}")]
+    [HttpPost("{stockId:int}")]
     public async Task<ActionResult> Create([FromRoute] int stockId, CreateCommentDto commentDto)
     {
 
@@ -71,7 +70,7 @@ namespace api.Controllers
     }
 
     [HttpDelete]
-    [Route("id")]
+    [Route("{id:int}")]
     public async Task<ActionResult> Delete([FromRoute] int id)
     {
       var commentModel = await _commentRepo.DeleteAsync(id);
