@@ -3,6 +3,7 @@ using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -12,11 +13,45 @@ namespace api.Controllers
   {
     private readonly UserManager<AppUser> _userManager;
     private readonly ITokenService _tokenService;
+    private readonly SignInManager<AppUser> _signinManager;
 
-    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
+    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager)
     {
       _userManager = userManager;
       _tokenService = tokenService;
+      _signinManager = signInManager;
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+
+      if (user is null)
+      {
+        return Unauthorized("Invalid Username");
+      }
+
+      var result = await _signinManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+      if (!result.Succeeded)
+      {
+        return Unauthorized("User or password are invalid");
+      }
+
+      return Ok(
+              new NewUserDto
+              {
+                Username = user.UserName,
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user)
+              }
+          );
+
     }
 
     [HttpPost("register")]
@@ -44,9 +79,9 @@ namespace api.Controllers
             return Ok(
                 new NewUserDto
                 {
-                   Username = appUser.UserName,
-                   Email = appUser.Email,
-                   Token = _tokenService.CreateToken(appUser)
+                  Username = appUser.UserName,
+                  Email = appUser.Email,
+                  Token = _tokenService.CreateToken(appUser)
                 }
 
                 );
