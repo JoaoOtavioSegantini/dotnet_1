@@ -13,13 +13,13 @@ CREATE TABLE [dbo].[AspNetUserLogins](
 	[ProviderKey] [nvarchar](450) NOT NULL,
 	[ProviderDisplayName] [nvarchar](max) NULL,
 	[UserId] [nvarchar](450) NOT NULL,
-    CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY CLUSTERED ([LoginProvider],[ProviderKey])
+  CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY CLUSTERED ([LoginProvider],[ProviderKey])
 )
 
 CREATE TABLE [dbo].[__EFMigrationsHistory](
 	[MigrationId] [nvarchar](150) NOT NULL,
 	[ProductVersion] [nvarchar](32) NOT NULL,
-    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED ([MigrationId]) 
+  CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED ([MigrationId]) 
 )
 
 CREATE TABLE [dbo].[AspNetRoles](
@@ -27,7 +27,7 @@ CREATE TABLE [dbo].[AspNetRoles](
 	[Name] [nvarchar](256) NULL,
 	[NormalizedName] [nvarchar](256) NULL,
 	[ConcurrencyStamp] [nvarchar](max) NULL,
-    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY CLUSTERED ([Id]) 
+  CONSTRAINT [PK_AspNetRoles] PRIMARY KEY CLUSTERED ([Id]) 
 )
 
 CREATE TABLE [dbo].[AspNetUserRoles](
@@ -60,7 +60,7 @@ CREATE TABLE [dbo].[AspNetUserTokens](
 	[LoginProvider] [nvarchar](450) NOT NULL,
 	[Name] [nvarchar](450) NOT NULL,
 	[Value] [nvarchar](max) NULL,
-    CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY CLUSTERED ([UserId], [LoginProvider], [Name])
+  CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY CLUSTERED ([UserId], [LoginProvider], [Name])
 )
 
 
@@ -97,7 +97,7 @@ CREATE TABLE [dbo].[Stocks](
 	[Industry] [nvarchar](max) NOT NULL,
 	[MarketCap] [bigint] NOT NULL,
 	CONSTRAINT [PK_Stocks] PRIMARY KEY CLUSTERED ([Id])
-  )
+)
 
 CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId] ON [dbo].[AspNetRoleClaims] ([RoleId])
 CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex] ON [dbo].[AspNetRoles] ([NormalizedName])
